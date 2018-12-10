@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="Bootstrap4_1Extension.css">
+  <link rel="stylesheet" href="style.css">
+  <title>javascriptBasket</title>
+</head>
+<body>
+  <div id="main-container">
+    <header >
+      <i class="fas fa-basketball-ball"></i>
+      <h1 class="white_text">TOP 100 <span>PLAYERS DATABASE<span></h1>
+      <img src="hamburger.svg" class="positionAbsolute_centerRight">
+    </header>
+    <div class="controls_area">
+      <div class="searchBar" onclick="gestisciInterazioneControlliRicerca()">
+        <i class="fas fa-search"></i><span>Cerca</span>
+      </div>
+      <div class="searchAgain" onclick="gestisciInterazioneControlliRicerca()">
+        <i class="fas fa-search"></i><span>Cerca di Nuovo</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="full_database" id="db"></div>
+    </div>
+  </div>
+
+
+    <script src="usefulMethods.js" charset="utf-8"></script>
+    <script src="main.js" charset="utf-8"></script>
+  </body>
+  </html>

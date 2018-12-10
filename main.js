@@ -53,13 +53,13 @@ $( document ).ready(function() {
     var listaGiocatori = $('#db');
 
     for (var i = 0; i < databaseGiocatori.length; i++) {
-      var card = generaCardPerListaDatabasePer(databaseGiocatori[i]);
+      var card = generaCardPerListaDatabaseDa(databaseGiocatori[i]);
       listaGiocatori.append(card);
     }
 
   }
 
-  function generaCardPerListaDatabasePer(giocatore) {
+  function generaCardPerListaDatabaseDa(giocatore) {
 
     var cardTemplate = $('#db_list_player_template');
 

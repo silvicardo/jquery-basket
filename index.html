@@ -9,20 +9,26 @@
   <title>javascriptBasket</title>
 </head>
 <body>
+
   <div id="main-container">
+
     <header >
       <i class="fas fa-basketball-ball"></i>
       <h1 class="white_text">TOP 100 <span>PLAYERS DATABASE<span></h1>
       <img src="hamburger.svg" class="positionAbsolute_centerRight">
     </header>
+
     <div class="controls_area">
       <div class="searchBar">
         <input id="searchInput" type="text" placeholder="Digita id giocatore da trovare" value="">
         <i class="fas fa-search"></i></span>
       </div>
     </div>
+
     <div class="content">
-      <div class="full_database active" id="db">
+
+      <div class="full_database" id="db">
+        <!-- Handlebars template -->
         <script id="db_list_player_template" type="text/x-handlebars-template">
           <div class="player_card">
             <div class="card_header">
@@ -33,10 +39,12 @@
           </div>
         </script>
       </div>
+
       <div id="result_area">
-        <!-- Handlebars template goes here -->
+
+        <!-- Handlebars template -->
         <script id="player_found" type="text/x-handlebars-template">
-        <div class="player_card">
+          <div class="player_card">
           <div class="card_header">
             <div class="player_id">
               <h2 class="">ID GIOCATORE: {{ id }}</h2>
@@ -56,15 +64,17 @@
             </ul>
           </div>
         </div>
-      </script>
+        </script>
+
       </div>
+
     </div>
+
   </div>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js" charset="utf-8"></script>
-    <script src="usefulMethods.js" charset="utf-8"></script>
-    <script src="main.js" charset="utf-8"></script>
-  </body>
-  </html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js" charset="utf-8"></script>
+  <script src="usefulMethods.js" charset="utf-8"></script>
+  <script src="main.js" charset="utf-8"></script>
+</body>
+</html>

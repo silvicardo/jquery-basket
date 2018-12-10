@@ -32,7 +32,8 @@ $( document ).ready(function() {
       } else if (idRicerca.length ==1) {
           var figliAreaRisultati = ($('#result_area').get(0).childElementCount);
 
-          if (figliAreaRisultati == 2 ) {
+          $('.warning').removeClass('active');
+          if (figliAreaRisultati == 3 ) {
             $('#result_area > .player_card').remove();
           }
       }
@@ -111,7 +112,7 @@ $( document ).ready(function() {
   }
 
   function stampaASchermoErrore() {
-    alert('Nessun Giocatore trovato con questo id.');
+    $('.warning').addClass('active');
   }
 
   function stampaASchermoGiocatoreDa(indice, database) {

@@ -46,6 +46,32 @@ $( document ).ready(function() {
     }
   });
 
+  var giocatoreMostrato;
+
+  $('.full_database .player_card').click(function() {
+
+    //Recupero l'indice di un eventuale giocatore già toccato in lista
+    giocatoreMostrato = $('.full_database .player_card.selected');
+    var indiceGiocatoreMostrato = $('.full_database .player_card').index(giocatoreMostrato);
+
+    var giocatoreCliccato = $(this);
+    var indiceGiocatoreCliccato = $('.full_database .player_card').index(giocatoreCliccato);
+
+    //Se il giocatore è diverso da quello già selezionato
+    //elabora la card
+    if (indiceGiocatoreMostrato != indiceGiocatoreCliccato) {
+      giocatoreMostrato.removeClass('selected');
+      giocatoreCliccato.addClass('selected');
+      var figliAreaRisultati = ($('#result_area').get(0).childElementCount);
+      if (figliAreaRisultati == 3 ) {
+        $('#result_area > .player_card').remove();
+      }
+      $('.warning').removeClass('active');
+      stampaASchermoGiocatoreDa(indiceGiocatoreCliccato, databaseGiocatori);
+    }
+
+  });
+
   // FUNZIONI
 
   //Gestione della UI

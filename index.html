@@ -16,19 +16,54 @@
       <img src="hamburger.svg" class="positionAbsolute_centerRight">
     </header>
     <div class="controls_area">
-      <div class="searchBar" onclick="gestisciInterazioneControlliRicerca()">
-        <i class="fas fa-search"></i><span>Cerca</span>
-      </div>
-      <div class="searchAgain" onclick="gestisciInterazioneControlliRicerca()">
-        <i class="fas fa-search"></i><span>Cerca di Nuovo</span>
+      <div class="searchBar">
+        <input id="searchInput" type="text" placeholder="Digita id giocatore da trovare" value="">
+        <i class="fas fa-search"></i></span>
       </div>
     </div>
     <div class="content">
-      <div class="full_database" id="db"></div>
+      <div class="full_database active" id="db">
+        <script id="db_list_player_template" type="text/x-handlebars-template">
+          <div class="player_card">
+            <div class="card_header">
+              <div class="player_id">
+                <h2 class="">ID GIOCATORE: {{ id }}</h2>
+              </div>
+            </div>
+          </div>
+        </script>
+      </div>
+      <div id="result_area">
+        <!-- Handlebars template goes here -->
+        <script id="player_found" type="text/x-handlebars-template">
+        <div class="player_card">
+          <div class="card_header">
+            <div class="player_id">
+              <h2 class="">ID GIOCATORE: {{ id }}</h2>
+            </div>
+          </div>
+          <div class="card_body">
+            <ul class="player_stats player_XYF500">
+              <li><span class="stat_key">rimbalzi :</span> {{ rimbalzi }}</li>
+              <li><span class="stat_key">falli :</span> {{ falli }}</li>
+              <li><span class="stat_key">punteggio Partita :</span> {{ punteggioPartita }}</li>
+              <li><span class="stat_key">tiri Da 3 Riusciti :</span> {{ tiriDa3Riusciti }}</li>
+              <li><span class="stat_key">tiri Da 2 Riusciti :</span> {{ tiriDa2Riusciti }}</li>
+              <li><span class="stat_key">punti Con Tiri Da 3 Riusciti :</span> {{ puntiConTiriDa3Riusciti }}</li>
+              <li><span class="stat_key">punti Con Tiri Da 2 Riusciti :</span> {{ puntiConTiriDa2Riusciti }}</li>
+              <li><span class="stat_key">percentuale Tiri Da 3 In Partita :</span> {{ percentualeTiriDa3InPartita }}</li>
+              <li><span class="stat_key">percentuale Tiri Da 2 In Partita :</span> {{ percentualeTiriDa2InPartita }}</li>
+            </ul>
+          </div>
+        </div>
+      </script>
+      </div>
     </div>
   </div>
 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js" charset="utf-8"></script>
     <script src="usefulMethods.js" charset="utf-8"></script>
     <script src="main.js" charset="utf-8"></script>
   </body>

@@ -16,192 +16,211 @@ all’utente di inserire un Codice Giocatore e il programma
 restituisce le statistiche.
 */
 
-//PROGRAMMA COMPLETO CON RICERCA TRAMITE prompt
+$( document ).ready(function() {
 
-var staMostrandoRisultato = false;
+  var databaseGiocatori = generaDatabaseGiocatori(100);
+  //console.log(databaseGiocatori);
 
-gestisciElementiHTMLDiRicerca();
+  caricaUIListaGiocatoriDa(databaseGiocatori);
 
-var databaseGiocatori = generaDatabaseGiocatori(100);
-//console.log(databaseGiocatori);
+  $('#searchInput').on({
+    keyup: function () {
 
-caricaUIListaGiocatoriDa(databaseGiocatori);
+      var idRicerca = $(this).val();
+      if (idRicerca.length == 6) {
+        interroga(databaseGiocatori, idRicerca);
+      } else if (idRicerca.length ==1) {
+          var figliAreaRisultati = ($('#result_area').get(0).childElementCount);
 
-// FUNZIONI
-
-function gestisciElementiHTMLDiRicerca() {
-  console.log(staMostrandoRisultato);
-  if (!staMostrandoRisultato) {
-    document.getElementsByClassName('searchAgain')[0].style.display = 'none';
-    document.getElementsByClassName('searchBar')[0].style.display = 'flex';
-  } else {
-    document.getElementsByClassName('searchAgain')[0].style.display = 'flex';
-    document.getElementsByClassName('searchBar')[0].style.display = 'none';
-  }
-}
-
-function caricaUIListaGiocatoriDa(databaseGiocatori) {
-  document.getElementById('db').innerHTML = '';
-
-  for (var i = 0; i < databaseGiocatori.length; i++) {
-    generaCard(databaseGiocatori[i]);
-  }
-}
-
-function gestisciInterazioneControlliRicerca() {
-  if (staMostrandoRisultato) {
-    staMostrandoRisultato = !staMostrandoRisultato;
-    gestisciElementiHTMLDiRicerca();
-    caricaUIListaGiocatoriDa(databaseGiocatori);
-  } else {
-    interroga(databaseGiocatori, (prompt('Digita id Giocatore desiderato')));
-  }
-}
-
-function generaCard(giocatore) {
-  var cardBaseHTML = '<div class="player_card"><div class="card_header"><div class="player_id"><h2 class="">ID GIOCATORE: ' + giocatore.id + '</h2></div></div><div class="card_body"><ul class="player_stats player_' + giocatore.id + '"></ul></div></div>';
-  document.getElementById('db').innerHTML += cardBaseHTML;
-
-  var listaStatistiche = document.getElementsByClassName('player_' + giocatore.id)[0];
-
-  for (var key in giocatore.statistiche) {
-    listaStatistiche.innerHTML += '<li><span class="stat_key">' + key + ' :</span> ' + giocatore.statistiche[key] + '</li>';
-  }
-
-}
-
-function generaDatabaseGiocatori(nrGiocatori) {
-  var arrayGiocatori = [];
-
-  var arrayId = generaIdCasualiDifferentiPer(nrGiocatori);
-
-  for (var i = 0; i < arrayId.length; i++) {
-    arrayGiocatori.push(generaNuovoOggettoGiocatoreRandomCon(arrayId[i]));
-  }
-
-  return arrayGiocatori;
-}
-
-function interroga(database, id) {
-
-  if (id == '' || id == null) {
-    alert('Input non valido');
-    return;
-  }
-
-  var idAdattato = id.toUpperCase();
-
-  var risultatoQuery = databaseContiene(database, idAdattato);
-  console.log(risultatoQuery);
-  if (risultatoQuery == -1) {
-    stampaASchermoErrore();
-  } else {
-    stampaASchermoGiocatoreDa(risultatoQuery, database);
-    staMostrandoRisultato = true;
-    gestisciElementiHTMLDiRicerca();
-
-  }
-}
-
-function stampaASchermoErrore() {
-  alert('Nessun Giocatore trovato con questo id.');
-}
-
-function stampaASchermoGiocatoreDa(indice, database) {
-
-  document.getElementById('db').innerHTML = '';
-  alert('giocatore trovato');
-  var giocatore = database[indice];
-  console.log();
-  generaCard(database[indice]);
-
-}
-
-function databaseContiene(database, id) {
-
-  for (var i = 0; i < database.length; i++) {
-    if (database[i].id == id) {
-      return i;
-    }
-  }
-
-  return -1;
-}
-
-function generaIdCasualiDifferentiPer(totaleId) {
-
-  var arrayId = [];
-
-  while (arrayId.length <= totaleId - 1) {
-    var numeriCasuali = generaNumeroCasualeTra(100, 999);
-    var stringaCasuale = generaStringaConLettereCasuali(3);
-    var idCandidato = stringaCasuale + numeriCasuali;
-    if (arrayId.includes(idCandidato) == false) {
-      arrayId.push(idCandidato);
-    }
-  }
-
-  return arrayId;
-}
-
-function generaStringaConLettereCasuali(numeroCaratteri) {
-  var alfabeto = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","u","v","w","x","y","z"];
-
-  var stringaRisultato = "";
-
-  for (var i = 0; i < numeroCaratteri; i++) {
-    var stringaCasuale = alfabeto[generaNumeroCasualeTra(0, alfabeto.length - 1)];
-    stringaRisultato += stringaCasuale.toUpperCase();
-  }
-  return stringaRisultato;
-}
-
-function generaNuovoOggettoGiocatoreRandomCon(id) {
-
-  var nuovoGiocatore = {
-    id: id,
-  };
-
-  nuovoGiocatore.statistiche = generaOggettoStatistiche();
-
-  return nuovoGiocatore;
-}
-
-function generaOggettoStatistiche() {
-
-  var statistiche = {
-    rimbalzi : generaNumeroCasualeTra(1,30), //Numero di rimbalzi
-    falli : generaNumeroCasualeTra(0, 5) //Falli
-  };
-
-  //Creazione restanti parametri delle statistiche
-  var statisticaCreata = false;
-
-  while (statisticaCreata != true) {
-    //Genero Punteggio Totale Casuale
-    statistiche.punteggioPartita = generaNumeroCasualeTra(20,80);
-
-    //Genero una percentuale tiri da 3 riuscita
-    var percentualeTiriDa3Casuale = generaNumeroCasualeTra(30,60);
-
-    //Calcolo punti fatti con tiri da 3 e 2 ad Intero
-    var puntiTiriDa3ConPerScelta = parseInt(statistiche.punteggioPartita / 100 * percentualeTiriDa3Casuale);
-    var tiriDa2Sottratti = statistiche.punteggioPartita - puntiTiriDa3ConPerScelta;
-
-    if (puntiTiriDa3ConPerScelta % 3 == 0) {
-      if (tiriDa2Sottratti % 2 == 0) {
-        statisticaCreata = true;
+          if (figliAreaRisultati == 2 ) {
+            $('#result_area > .player_card').remove();
+          }
+      }
+    },
+    click: function () {
+      var idRicerca = $(this).val();
+      if (idRicerca.length == 6) {
+        $(this).val('');
       }
     }
+  });
+
+  // FUNZIONI
+
+  //Gestione della UI
+
+  function caricaUIListaGiocatoriDa(databaseGiocatori) {
+    var listaGiocatori = $('#db');
+
+    for (var i = 0; i < databaseGiocatori.length; i++) {
+      var card = generaCardPerListaDatabasePer(databaseGiocatori[i]);
+      listaGiocatori.append(card);
+    }
+
   }
 
-  //Assegnazione parametri generati
-  statistiche.tiriDa3Riusciti = puntiTiriDa3ConPerScelta / 3;
-  statistiche.tiriDa2Riusciti = tiriDa2Sottratti / 2;
-  statistiche.puntiConTiriDa3Riusciti = puntiTiriDa3ConPerScelta;
-  statistiche.puntiConTiriDa2Riusciti = tiriDa2Sottratti ;
-  statistiche.percentualeTiriDa3InPartita = percentualeTiriDa3Casuale + '%';
-  statistiche.percentualeTiriDa2InPartita = (100 - percentualeTiriDa3Casuale) + '%';
+  function generaCardPerListaDatabasePer(giocatore) {
 
-  return statistiche;
-}
+    var cardTemplate = $('#db_list_player_template');
+
+    var cardTemplateHtml = cardTemplate.html();
+
+    var template = Handlebars.compile(cardTemplateHtml);
+
+    var data = {
+      id: giocatore.id
+    };
+
+    var htmlRisultato = template(data);
+
+    return htmlRisultato;
+
+  }
+
+  function generaCard(giocatore) {
+
+    var cardTemplate = $('#player_found');
+
+    var cardTemplateHtml = cardTemplate.html();
+
+    var template = Handlebars.compile(cardTemplateHtml);
+
+    var data = giocatore.statistiche;
+
+    data.id = giocatore['id'];
+
+    var htmlRisultato = template(data);
+
+    return htmlRisultato;
+
+  }
+
+  //Ricerca Giocatori nel db
+
+  function interroga(database, id) {
+
+    var idAdattato = id.toUpperCase();
+
+    var risultatoQuery = databaseContiene(database, idAdattato);
+    if (risultatoQuery == -1) {
+      stampaASchermoErrore();
+    } else {
+      stampaASchermoGiocatoreDa(risultatoQuery, database);
+    }
+    $('#searchInput').val('');
+  }
+
+  function stampaASchermoErrore() {
+    alert('Nessun Giocatore trovato con questo id.');
+  }
+
+  function stampaASchermoGiocatoreDa(indice, database) {
+
+    var giocatore = database[indice];
+    var cardGiocatoreTrovato = generaCard(database[indice]);
+    $('#result_area').append(cardGiocatoreTrovato);
+  }
+
+  function databaseContiene(database, id) {
+
+    for (var i = 0; i < database.length; i++) {
+      if (database[i].id == id) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  //Generazione Giocatori casuali per il db
+
+  function generaDatabaseGiocatori(nrGiocatori) {
+    var arrayGiocatori = [];
+
+    var arrayId = generaIdCasualiDifferentiPer(nrGiocatori);
+
+    for (var i = 0; i < arrayId.length; i++) {
+      arrayGiocatori.push(generaNuovoOggettoGiocatoreRandomCon(arrayId[i]));
+    }
+
+    return arrayGiocatori;
+  }
+
+  function generaIdCasualiDifferentiPer(totaleId) {
+
+    var arrayId = [];
+
+    while (arrayId.length <= totaleId - 1) {
+      var numeriCasuali = generaNumeroCasualeTra(100, 999);
+      var stringaCasuale = generaStringaConLettereCasuali(3);
+      var idCandidato = stringaCasuale + numeriCasuali;
+      if (arrayId.includes(idCandidato) == false) {
+        arrayId.push(idCandidato);
+      }
+    }
+
+    return arrayId;
+  }
+
+  function generaStringaConLettereCasuali(numeroCaratteri) {
+    var alfabeto = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","u","v","w","x","y","z"];
+
+    var stringaRisultato = "";
+
+    for (var i = 0; i < numeroCaratteri; i++) {
+      var stringaCasuale = alfabeto[generaNumeroCasualeTra(0, alfabeto.length - 1)];
+      stringaRisultato += stringaCasuale.toUpperCase();
+    }
+    return stringaRisultato;
+  }
+
+  function generaNuovoOggettoGiocatoreRandomCon(id) {
+
+    var nuovoGiocatore = {
+      id: id,
+    };
+
+    nuovoGiocatore.statistiche = generaOggettoStatistiche();
+
+    return nuovoGiocatore;
+  }
+
+  function generaOggettoStatistiche() {
+
+    var statistiche = {
+      rimbalzi : generaNumeroCasualeTra(1,30), //Numero di rimbalzi
+      falli : generaNumeroCasualeTra(0, 5) //Falli
+    };
+
+    //Creazione restanti parametri delle statistiche
+    var statisticaCreata = false;
+
+    while (statisticaCreata != true) {
+      //Genero Punteggio Totale Casuale
+      statistiche.punteggioPartita = generaNumeroCasualeTra(20,80);
+
+      //Genero una percentuale tiri da 3 riuscita
+      var percentualeTiriDa3Casuale = generaNumeroCasualeTra(30,60);
+
+      //Calcolo punti fatti con tiri da 3 e 2 ad Intero
+      var puntiTiriDa3ConPerScelta = parseInt(statistiche.punteggioPartita / 100 * percentualeTiriDa3Casuale);
+      var tiriDa2Sottratti = statistiche.punteggioPartita - puntiTiriDa3ConPerScelta;
+
+      if (puntiTiriDa3ConPerScelta % 3 == 0) {
+        if (tiriDa2Sottratti % 2 == 0) {
+          statisticaCreata = true;
+        }
+      }
+    }
+
+    //Assegnazione parametri generati
+    statistiche.tiriDa3Riusciti = puntiTiriDa3ConPerScelta / 3;
+    statistiche.tiriDa2Riusciti = tiriDa2Sottratti / 2;
+    statistiche.puntiConTiriDa3Riusciti = puntiTiriDa3ConPerScelta;
+    statistiche.puntiConTiriDa2Riusciti = tiriDa2Sottratti ;
+    statistiche.percentualeTiriDa3InPartita = percentualeTiriDa3Casuale + '%';
+    statistiche.percentualeTiriDa2InPartita = (100 - percentualeTiriDa3Casuale) + '%';
+
+    return statistiche;
+  }
+});

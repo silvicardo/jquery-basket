@@ -9,6 +9,11 @@
     display: none;
 }
 
+
+input:focus {
+  outline-style: none;
+}
+
 #main-container {
   height: 100vh;
   width: 100vw;
@@ -18,6 +23,8 @@
   background-size: cover;
   overflow: hidden;
 }
+
+/************* HEADER ***************/
 
 header {
   height:100px;
@@ -46,6 +53,9 @@ header img {
   margin-right: 20px;
   cursor: pointer;
 }
+
+/************* CONTROLS AREA ***************/
+
 .controls_area {
   height: 100px;
 
@@ -55,77 +65,80 @@ header img {
   height: 100px;
 }
 
-.controls_area .searchBar, .controls_area .searchAgain {
-  padding-left: 20px;
+.controls_area .searchBar{
+  position: relative;
   height: 60px;
+  width: 95%;
   margin: 40px auto;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
+  border: 5px solid black;
   border-radius: 12px;
   color: black;
   cursor: pointer;
   background: white;
 }
 
-.controls_area .searchBar {
-  border: 5px solid black;
-  width: 95%;
+#searchInput {
+  width: 100%;
+  height: 60px;
+  padding-left: 70px;
+  font-size: 25px;
+  line-height: 60px;
 }
 
-.controls_area .searchBar *, .controls_area .searchAgain * {
-  margin-right: 20px;
+#searchInput::placeholder {
+  font-size: 30px;
+  line-height: 60px;
+}
+
+
+.controls_area .searchBar .fa-search {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
   font-size: 30px;
   color: black;
 }
 
-.controls_area .searchBar a * {
-  margin-right: 20px;
-  font-size: 30px;
-}
-
-.controls_area .searchAgain {
-  max-width: 400px;
-  border: 5px solid black;
-  justify-content: center;
-  background: orange;
-}
-
-@media all and (max-width: 767px) {
-  .controls_area .searchAgain {
-    max-width: 90%;
-  }
-}
-
-
-.controls_area .searchAgain i  {
-  color: white;
-}
-
-.full_database {
-  overflow-y: auto;
-  max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  overflow: auto;
-}
+/************* CONTENT ***************/
 
 .content {
   height: calc(100vh - 200px);
-  overflow-y: auto;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .content .full_database {
-  margin: 30px 0px 100px 0px;
+  overflow-y: auto;
+  width: 600px;
+  height: 100%;
+  padding-top: 20px;
+  padding-bottom:40px;
+  float: left;
+  }
+
+#result_area {
+  width: calc(100% - 600px);
+  height: calc(100vh - 200px);;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .player_card {
-  margin-top: 40px;
+  margin-bottom: 20px;
+  max-width: 90%;
   overflow: hidden;
   border: 2px solid black;
   border-radius: 12px;
   background: white;
+}
+
+.full_database .player_card {
+  margin: auto;
+  margin-bottom: 20px;
 }
 
 .player_card .card_header {
@@ -135,6 +148,10 @@ header img {
   text-align: center;
   border-bottom: 2px solid black;
   background: orange;
+}
+
+.full_database .player_card .card_header{
+  border: 0px;
 }
 
 .player_card .card_body {

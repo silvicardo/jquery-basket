@@ -183,11 +183,16 @@ header img {
 .full_database .player_card {
   margin: auto;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .full_database .player_card .card_header{
   border: 0px;
   background: white;
+}
+
+.full_database .player_card.selected .card_header {
+  background: grey;
 }
 
 #result_area {

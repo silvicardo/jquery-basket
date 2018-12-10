@@ -25,11 +25,11 @@ $( document ).ready(function() {
 
   $('#searchInput').on({
     keyup: function () {
-
+      $('.full_database .player_card').removeClass('selected');
       var idRicerca = $(this).val();
       if (idRicerca.length == 6) {
         interroga(databaseGiocatori, idRicerca);
-      } else if (idRicerca.length ==1) {
+      } else if (idRicerca.length == 1) {
           var figliAreaRisultati = ($('#result_area').get(0).childElementCount);
 
           $('.warning').removeClass('active');
